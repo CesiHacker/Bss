@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Brawl Stars Benzeri Oyun</title>
+</head>
+<body>
+  <canvas id="canvas" width="800" height="600"></canvas>
+  <script>
+    // Oyun nesnelerini tanımlayın
+    var oyuncular = [];
+    var mermiler = [];
+    var haritalar = [];
+
+    // Oyun tuşlarını tanımlayın
+    var tuslar = {
+      "w": false,
+      "a": false,
+      "s": false,
+      "d": false,
+      "boşluk": false
+    };
+
+    // Canvas nesnesini alın
+    var canvas = document.getElementById("canvas");
+
+    // Context nesnesini alın
+    var ctx = canvas.getContext("2d");
+
+    // Oyun döngüsünü başlatın
+    setInterval(() => {
+      // Oyuncunun hareketini güncelleyin
+      oyuncular.forEach((oyuncu) => {
+        oyuncu.hareketEt();
+      });
+
+      // Mermilerin hareketini güncelleyin
+      mermiler.forEach((mermi) => {
+        mermi.hareketEt();
+      });
+
+      // Çarpışmaları kontrol edin
+      for (var i = 0; i < oyuncular.length; i++) {
+        for (var j = 0; j < mermiler.length; j++) {
+          if (oyuncular[i].carpismaKutusu(mermiler[j].carpismaKutusu())) {
+            // Oyuncu vuruldu
+          }
+        }
+      }
+
+      // Çerçeveyi temizleyin
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Oyuncuları çizin
+      oyuncular.forEach((oyuncu) => {
+        oyuncu.ciz(ctx);
+      });
+
+      // Mermileri çizin
+      mermiler.forEach((mermi) => {
+        mermi.ciz(ctx);
+      });
+    }, 16);
+
+    // Tuş olaylarını dinleyin
+    addEventListener("keydown", (e) => {
+      tuslar[e.key] = true;
+    });
+
+    addEventListener("keyup", (e) => {
+      tuslar[e.key] = false;
+    });
+  </script>
+</body>
+</html>
